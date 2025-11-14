@@ -1,0 +1,262 @@
+:root {
+    --bg: #0a0d13;
+    --bg2: #0d111a;
+    --text: #e6ebf3;
+    --muted: #98a2b3;
+    --primary: #00f0ff;
+    --accent: #6f42c1;
+    --success: #35dc59;
+    --radius: 16px;
+    --card: rgba(23, 27, 38, .85);
+    --glow: 0 0 12px rgba(0, 240, 255, .6);
+    --glow-strong: 0 0 26px rgba(0, 240, 255, .8);
+}
+
+/* پس‌زمینه */
+body {
+    background:
+        radial-gradient(rgba(255, 255, 255, .07) 1px, transparent 1px) 0 0 / 24px 24px,
+        radial-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px) 12px 12px / 24px 24px,
+        linear-gradient(180deg, var(--bg), var(--bg2));
+    color: var(--text);
+    font-family: "Vazirmatn", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    scroll-behavior: smooth;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(0, 0, 0, .55);
+    border-bottom: 2px solid rgba(0, 240, 255, .4);
+}
+
+.logo {
+    max-height: 56px;
+    filter: drop-shadow(var(--glow));
+}
+
+.nav-link {
+    color: var(--text) !important;
+    transition: color .2s ease, text-shadow .2s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary) !important;
+    text-shadow: var(--glow);
+}
+
+/* دکمه RGB */
+.btn-rgb {
+    background: linear-gradient(90deg, #ff3b3b, #00f0ff, #35dc59, #6f42c1);
+    background-size: 400% 400%;
+    animation: rgbGlow 6s linear infinite;
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 12px;
+    box-shadow: var(--glow);
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    min-height: 44px;
+}
+
+.btn-rgb:hover {
+    box-shadow: var(--glow-strong);
+    transform: translateY(-2px);
+}
+
+
+@keyframes rgbGlow {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+/* فرم‌ها */
+.form-control,
+textarea {
+    background: rgba(26, 31, 44, .85);
+    border: 1px solid rgba(255, 255, 255, .12);
+    color: var(--text);
+    border-radius: 12px;
+}
+
+.form-control:focus,
+textarea:focus {
+    border-color: var(--primary);
+    box-shadow: var(--glow);
+    outline: none;
+}
+
+.form-control::placeholder,
+textarea::placeholder {
+    color: var(--muted);
+}
+
+/* اسلایدر */
+.carousel-item img {
+    max-height: 520px;
+    object-fit: cover;
+}
+
+/* تایپینگ */
+.typing {
+    overflow: hidden;
+    border-right: .12em solid var(--primary);
+    white-space: nowrap;
+    animation: typing 2.8s steps(30, end), blink .8s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent
+    }
+}
+
+/* سکشن‌ها */
+section {
+    padding: 60px 0;
+}
+
+h2.section-title {
+    color: var(--primary);
+    text-shadow: var(--glow);
+    font-weight: 800;
+    margin-bottom: 1.2rem;
+}
+
+/* کارت‌ها */
+.card {
+    background: var(--card);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--glow-strong);
+    border-color: rgba(0, 240, 255, .28);
+}
+
+.card-img-top {
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    background: #0f131d;
+    transition: transform 0.4s ease;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.08);
+}
+
+/* متن کارت */
+.card-body h5,
+.card-body p {
+    color: #fff !important;
+    text-shadow: 0 0 6px rgba(0, 0, 0, .8);
+}
+
+/* قیمت‌ها */
+.price {
+    color: var(--success);
+    font-weight: 800;
+}
+
+.old-price {
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-left: .5rem;
+}
+
+.badge-discount {
+    background: var(--success);
+    color: #041014;
+    font-weight: 800;
+    border-radius: 999px;
+    padding: .35rem .6rem;
+    box-shadow: 0 0 8px rgba(53, 220, 89, .5);
+    margin-inline-start: .5rem;
+}
+
+/* دسته‌بندی‌ها */
+.category-card .card-body {
+    padding: 26px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.category-card:hover .card-body {
+    color: var(--primary);
+    text-shadow: var(--glow);
+}
+
+/* برندها */
+.brand-badge {
+    background: rgba(19, 23, 34, .7);
+    color: var(--text);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 999px;
+    padding: .6rem 1rem;
+    transition: all .25s ease;
+}
+
+.brand-badge:hover {
+    border-color: rgba(0, 240, 255, .35);
+    color: var(--primary);
+    text-shadow: var(--glow);
+}
+
+/* فلش‌های Carousel */
+.carousel-control-prev,
+.carousel-control-next {
+    background-color: rgba(0, 240, 255, .3);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1);
+}
+
+/* فوتر */
+footer {
+    background: #0a0d13;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    color: var(--muted);
+}
+
+/* ریسپانسیو */
+@media (max-width: 992px) {
+    .carousel-item img {
+        max-height: 380px;
+    }
+
+    #mainNav .btn-rgb:first-of-type {
+        margin-bottom: 12px;
+    }
+}
