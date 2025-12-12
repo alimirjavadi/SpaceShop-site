@@ -14,13 +14,23 @@
 
 /* پس‌زمینه */
 body {
-    background:
-        radial-gradient(rgba(255, 255, 255, .07) 1px, transparent 1px) 0 0 / 24px 24px,
-        radial-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px) 12px 12px / 24px 24px,
-        linear-gradient(180deg, var(--bg), var(--bg2));
+    background: linear-gradient(135deg, #0a0d13 0%, #11152a 35%, #2a1f4d 65%, #0d111a 100%);
+    background-attachment: fixed;
+    position: relative;
     color: var(--text);
-    font-family: "Vazirmatn", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-family: "Vazirmatn", system-ui;
     scroll-behavior: smooth;
+    min-height: 100vh;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
 }
 
 /* Navbar */
@@ -42,6 +52,76 @@ body {
 .nav-link:hover {
     color: var(--primary) !important;
     text-shadow: var(--glow);
+}
+
+.search-input-minimal::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+}
+
+.search-input-minimal:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.autocomplete-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.suggestion-item:hover {
+    background: rgba(0, 255, 255, 0.1);
+    color: #00ffff;
+    padding-left: 20px;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item i {
+    color: #ff00ff;
+    width: 20px;
+    font-size: 1rem;
+}
+
+/* انیمیشن subtle neon pulse */
+@keyframes neonGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    }
+}
+
+.input-group-neon:focus-within {
+    animation: neonGlow 2s infinite;
+}
+
+/* موبایل: full-width مثل Lion */
+@media (max-width: 991.98px) {
+    #mainNav .navbar-nav {
+        text-align: center;
+    }
+
+    form[role="search"] {
+        max-width: 100% !important;
+        margin: 15px 0;
+    }
+
+    .ms-3 {
+        margin-left: 0 !important;
+        justify-content: center;
+    }
+
+    .search-neon-minimal {
+        width: 100% !important;
+    }
 }
 
 /* دکمه RGB */
@@ -105,6 +185,13 @@ textarea::placeholder {
 .carousel-item img {
     max-height: 520px;
     object-fit: cover;
+}
+
+@media (max-width: 767.98px) {
+    .carousel-item img {
+        max-height: 300px;
+        /* کوچکتر برای موبایل */
+    }
 }
 
 /* تایپینگ */
@@ -238,6 +325,16 @@ h2.section-title {
     transform: translateY(-50%);
 }
 
+@media (max-width: 575.98px) {
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 30px;
+        height: 30px;
+        /* کوچکتر برای موبایل */
+    }
+}
+
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
     filter: invert(1);
@@ -250,13 +347,182 @@ footer {
     color: var(--muted);
 }
 
-/* ریسپانسیو */
-@media (max-width: 992px) {
-    .carousel-item img {
-        max-height: 380px;
+/* ریسپانسیو اضافی */
+@media (max-width: 575.98px) {
+    section {
+        padding: 40px 0;
+        /* کمتر برای موبایل */
     }
 
-    #mainNav .btn-rgb:first-of-type {
-        margin-bottom: 12px;
+    h2.section-title {
+        font-size: 1.5rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+/* سرچ بار نئونی  */
+.search-neon-minimal {
+    max-width: 340px;
+    width: 100%;
+    height: 48px;
+    background: rgba(23, 27, 38, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(0, 240, 255, 0.25);
+    border-radius: 30px;
+    padding: 0 52px 0 22px;
+    color: #ffffff !important;
+    /* متن همیشه سفید */
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 0.98rem;
+    transition: all 0.35s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.search-neon-minimal::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+}
+
+.search-neon-minimal:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: rgba(23, 27, 38, 0.95);
+    box-shadow: var(--glow-strong);
+    max-width: 380px;
+    transform: translateY(-1px);
+}
+
+/* آیکون ذره‌بین داخل سرچ */
+.position-absolute.text-cyan {
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+    color: var(--primary);
+    font-size: 1.15rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+.search-neon-minimal:focus+.text-cyan {
+    color: #ff00ff;
+    transform: translateY(-50%) scale(1.15);
+}
+
+/* دراپ‌داون نتایج جستجو */
+.search-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--card);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 16px;
+    max-height: 320px;
+    overflow: hidden auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+}
+
+.search-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.search-dropdown div {
+    padding: 14px 20px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.search-dropdown div:hover {
+    background: rgba(0, 240, 255, 0.12);
+    color: var(--primary);
+    padding-left: 28px;
+    text-shadow: var(--glow);
+}
+
+.search-dropdown div:last-child {
+    border-bottom: none;
+}
+
+/* موبایل – سرچ تمام‌عرض و زیبا */
+@media (max-width: 991.98px) {
+    .search-neon-minimal {
+        width: 100% !important;
+        max-width: 100%;
+        margin: 16px auto 8px;
+    }
+
+    .search-neon-minimal:focus {
+        width: 100% !important;
+    }
+}
+
+/* موبایل: دکمه‌ها و سرچ داخل منوی همبرگری کاملاً تمیز */
+@media (max-width: 991.98px) {
+    #mainNav .d-lg-none {
+        order: 999;
+        /* میره آخر منو */
+    }
+
+
+    /* سرچ داخل منوی موبایل */
+    #neonSearchMobile {
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
+}
+
+/* موبایل: دکمه‌ها و سرچ داخل منو – کاملاً استاندارد و زیبا */
+@media (max-width: 991.98px) {
+
+    /* سرچ بار موبایل */
+    #neonSearchMobile {
+        height: 44px;
+        font-size: 0.95rem;
+    }
+
+    /* دکمه‌های موبایل – دقیقاً مثل دیجی‌کالا و لیون */
+    .d-lg-none .btn-rgb {
+        height: 48px;
+        font-size: 0.98rem;
+        font-weight: 600;
+        border-radius: 12px;
+        box-shadow: var(--glow);
+    }
+
+    /* فاصله مناسب از منوی اصلی */
+    #mainNav .navbar-nav {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+}
+
+
+@media (max-width: 991px) {
+    .d-grid .btn-rgb {
+        height: 48px;
+        font-size: 0.98rem;
+    }
+}
+
+@media (max-width: 991px) {
+    #mainNav .navbar-nav {
+        padding-bottom: 16px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 }

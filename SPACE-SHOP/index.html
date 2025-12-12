@@ -32,7 +32,7 @@
       <div id="mainNav" class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link" href="#home">خانه</a></li>
-          <li class="nav-item"><a class="nav-link" href="#offers">پیشنهاد ویژه</a></li>
+          <li class="nav-item"><a class="nav-link" href="#offers">پیشنهادی </a></li>
           <li class="nav-item"><a class="nav-link" href="#categories">دسته‌بندی</a></li>
           <li class="nav-item"><a class="nav-link" href="#products">محصولات</a></li>
           <li class="nav-item"><a class="nav-link" href="#brands">برندها</a></li>
@@ -40,16 +40,64 @@
           <li class="nav-item"><a class="nav-link" href="#contact">تماس</a></li>
         </ul>
 
+        <!-- سرچ بار مینیمال نئونی 2025 – دقیقاً مثل lioncomputer اما با تم خودت -->
+        <form class="d-none d-lg-block mx-3" role="search">
+          <div class="position-relative">
+            <input type="search" id="neonSearch" class="form-control search-neon-minimal"
+              placeholder="جستجو در ۱۰٬۰۰۰+ محصول گیمینگ..." autocomplete="off">
+            <i class="bi bi-search position-absolute text-cyan"></i>
+
+            <!-- Autocomplete dropdown -->
+            <div class="search-dropdown" id="searchDropdown">
+              <!-- پیشنهادها با JS میاد -->
+            </div>
+          </div>
+        </form>
+
         <!-- دکمه حساب کاربری -->
-        <a href="#login" class="btn btn-rgb d-flex align-items-center gap-2 ms-3">
+        <a href="#login" class="btn btn-rgb d-flex align-items-center gap-2 ms-3 d-none d-lg-flex">
           <i class="bi bi-person"></i>
           <span>حساب کاربری</span>
         </a>
 
-        <!-- دکمه سبد خرید -->
-        <a href="#cart" class="btn btn-rgb d-flex align-items-center gap-2 ms-3">
-          <i class="bi bi-cart"></i>
-        </a>
+        <!-- سبد خرید با تعداد -->
+        <div class="position-relative d-none d-lg-block">
+          <button id="cartBtn" class="btn btn-rgb position-relative" type="button">
+            <i class="bi bi-cart"></i>
+            <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="font-size: 0.7rem; display: none;">0</span>
+          </button>
+        </div>
+
+        <!-- ==== نسخه موبایل داخل منوی همبرگری (استاندارد ۲۰۲۵) ==== -->
+        <div class="d-lg-none w-100 px-3 mt-3">
+          <!-- سرچ بار موبایل -->
+          <form class="mb-3" role="search">
+            <div class="position-relative">
+              <input type="search" id="neonSearchMobile" class="form-control search-neon-minimal py-2"
+                placeholder="جستجو در محصولات..." autocomplete="off">
+              <i class="bi bi-search position-absolute text-cyan"></i>
+            </div>
+          </form>
+
+          <!-- دکمه‌های موبایل – دقیقاً اندازه استاندارد -->
+          <div class="d-grid gap-2">
+            <a href="#login" class="btn btn-rgb py-2 px-3 d-flex align-items-center justify-content-center gap-3">
+              <i class="bi bi-person"></i>
+              حساب کاربری
+            </a>
+
+            <button id="cartBtnMobile"
+              class="btn btn-rgb py-2 px-3 d-flex align-items-center justify-content-center gap-3 position-relative"
+              type="button">
+              <i class="bi bi-cart3"></i>
+              سبد خرید
+              <span id="cartCountMobile"
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                style="font-size:0.65rem; display:none;">0</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -60,8 +108,9 @@
       <div class="carousel-inner">
 
         <!-- اسلاید 1 بدون fallback -->
+
         <div class="carousel-item active">
-          <img src="assets/images/banners/station.jpg" loading="eager" class="d-block w-100" alt="Gaming Banner"
+          <img src="assets/images/banners/raser.webp" loading="eager" class="d-block w-100" alt="Gaming Banner"
             style="cursor: pointer;">
         </div>
 
@@ -72,8 +121,8 @@
         </div>
 
         <!-- اسلاید 3 با fallback -->
-        <div class="carousel-item">
-          <img src="assets/images/banners/raser.webp" loading="eager" class="d-block w-100" alt="Gaming Banner"
+        <div class="carousel-item ">
+          <img src="assets/images/banners/station.jpg" loading="eager" class="d-block w-100" alt="Gaming Banner"
             style="cursor: pointer;">
         </div>
 
@@ -110,7 +159,7 @@
               <span class="price">102,000,000 تومان</span>
             </div>
             <div class="card-footer text-center">
-              <a href="cart.html" class="btn btn-rgb w-100">افزودن به سبد</a>
+              <a href="#" class="btn btn-rgb w-100">افزودن به سبد</a> <!-- لینک به JS تغییر کرد -->
             </div>
           </div>
         </div>
@@ -126,7 +175,7 @@
               <span class="price">10,000,000 تومان</span>
             </div>
             <div class="card-footer text-center">
-              <a href="cart.html" class="btn btn-rgb w-100">افزودن به سبد</a>
+              <a href="#" class="btn btn-rgb w-100">افزودن به سبد</a>
             </div>
           </div>
         </div>
@@ -142,8 +191,7 @@
               <span class="price">5,580,000 تومان</span>
             </div>
             <div class="card-footer text-center">
-              <a href="cart.html" class="btn btn-rgb w-100">افزودن به سبد</a>
-
+              <a href="#" class="btn btn-rgb w-100">افزودن به سبد</a>
             </div>
           </div>
         </div>
@@ -156,7 +204,7 @@
     <h2 class="section-title mb-4">دسته‌بندی‌ها</h2>
     <div class="row g-4">
 
-      <div class="col-6 col-md-3">
+      <div class="col-6 col-sm-4 col-md-3">
         <a href="categories/computer-parts.html" class="text-decoration-none">
           <div class="card category-card hoverable-card">
             <div class="card-body">🖥️ قطعات کامپیوتر</div>
@@ -164,7 +212,7 @@
         </a>
       </div>
 
-      <div class="col-6 col-md-3">
+      <div class="col-6 col-sm-4 col-md-3">
         <a href="categories/consoles.html" class="text-decoration-none">
           <div class="card category-card hoverable-card">
             <div class="card-body">🎮 کنسول بازی</div>
@@ -172,7 +220,7 @@
         </a>
       </div>
 
-      <div class="col-6 col-md-3">
+      <div class="col-6 col-sm-4 col-md-3">
         <a href="categories/headsets.html" class="text-decoration-none">
           <div class="card category-card hoverable-card">
             <div class="card-body">🎧 هدست</div>
@@ -180,7 +228,7 @@
         </a>
       </div>
 
-      <div class="col-6 col-md-3">
+      <div class="col-6 col-sm-4 col-md-3">
         <a href="categories/keyboards-mice.html" class="text-decoration-none">
           <div class="card category-card hoverable-card">
             <div class="card-body">⌨️ کیبورد و موس</div>
@@ -209,7 +257,7 @@
                   <span class="price">3,200,000 تومان</span>
                 </div>
                 <div class="card-footer text-center">
-                  <a href="cart.html" class="btn btn-rgb w-100">افزودن به سبد</a>
+                  <a href="#" class="btn btn-rgb w-100">افزودن به سبد</a>
                 </div>
               </div>
             </div>
@@ -223,7 +271,7 @@
                   <span class="price">25,000,000 تومان</span>
                 </div>
                 <div class="card-footer text-center">
-                  <a href="cart.html" class="btn btn-rgb w-100">افزودن به سبد</a>
+                  <a href="#" class="btn btn-rgb w-100">افزودن به سبد</a>
                 </div>
               </div>
             </div>
@@ -238,7 +286,7 @@
                   <span class="price">6,900,000 تومان</span>
                 </div>
                 <div class="card-footer text-center">
-                  <a href="cart.html" class="btn btn-rgb w-100">افزودن به سبد</a>
+                  <a href="#" class="btn btn-rgb w-100">افزودن به سبد</a>
                 </div>
               </div>
             </div>
@@ -259,21 +307,21 @@
                   <span class="price">18,000,000 تومان</span>
                 </div>
                 <div class="card-footer text-center">
-                  <a href="cart.html" class="btn btn-rgb w-100">افزودن به سبد</a>
+                  <a href="#" class="btn btn-rgb w-100">افزودن به سبد</a>
                 </div>
               </div>
             </div>
 
             <div class="col-12 col-sm-6 col-lg-4">
               <div class="card h-100">
-                <img src="assets/images/products/kraken-x-lite.jpg" class="card-img-top" alt="Intel i9">
+                <img src="assets/images/products/kraken-x-lite.jpg" class="card-img-top" alt="هدست Razer Kraken">
                 <div class="card-body">
                   <h5 class="card-title">هدست گیمینگ Razer Kraken</h5>
                   <p class="card-text">صدای فراگیر 7.1 و میکروفون نویزگیر.</p>
                   <span class="price">4,800,000 تومان</span>
                 </div>
                 <div class="card-footer text-center">
-                  <a href="cart.html" class="btn btn-rgb w-100">افزودن به سبد</a>
+                  <a href="#" class="btn btn-rgb w-100">افزودن به سبد</a>
                 </div>
               </div>
             </div>
@@ -287,7 +335,7 @@
                   <span class="price">2,500,000 تومان</span>
                 </div>
                 <div class="card-footer text-center">
-                  <a href="cart.html" class="btn btn-rgb w-100">افزودن به سبد</a>
+                  <a href="#" class="btn btn-rgb w-100">افزودن به سبد</a>
                 </div>
               </div>
             </div>
@@ -338,7 +386,8 @@
         </div>
         <div class="col-12 col-sm-6 col-lg-4">
           <div class="card h-100">
-            <img src="assets/images/blog/buy-dns-for-ps5.jpg" class="card-img-top" alt="DNS برای PS5" loading="lazy">
+            <img src="assets/images/blog/buy-dns-for-ps5.jpg" class="card-img-top" alt="بهترین DNS برای PS5"
+              loading="lazy">
             <div class="card-body">
               <h5 class="card-title">بهترین DNS برای PS5</h5>
               <p class="card-text">کاهش پینگ و اتصال پایدار برای بازی آنلاین.</p>
@@ -348,7 +397,7 @@
         </div>
         <div class="col-12 col-sm-6 col-lg-4">
           <div class="card h-100">
-            <img src="assets/images/blog/assemble.jpg" class="card-img-top" alt="اسمبل اقتصادی" loading="lazy">
+            <img src="assets/images/blog/assemble.jpg" class="card-img-top" alt="اسمبل سیستم اقتصادی" loading="lazy">
             <div class="card-body">
               <h5 class="card-title">اسمبل سیستم اقتصادی</h5>
               <p class="card-text">ترکیب قطعات با بودجه محدود و کارایی عالی.</p>
@@ -364,7 +413,7 @@
   <section id="contact">
     <div class="container">
       <h2 class="section-title text-center mb-4">تماس با ما</h2>
-      <form class="row g-3" action="" method="post">
+      <form class="row g-3" action="" method="post"> <!-- action رو به backend واقعی تغییر بدید -->
         <div class="col-md-6">
           <input type="text" name="name" class="form-control" placeholder="نام" required>
         </div>
@@ -394,6 +443,92 @@
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+  <script>
+    // سرچ بار نهایی SpaceShop – روش استاندارد و بدون باگ (مثل دیجی‌کالا و لیون)
+    const searchInputs = [document.getElementById('neonSearch'), document.getElementById('neonSearchMobile')];
+    const dropdown = document.getElementById('searchDropdown');
+
+    const suggestions = [
+      'RTX 4090', 'RTX 4080', 'RTX 4070', 'RTX 3060',
+      'هدست Pro X', 'هدست گیمینگ', 'SSD 1TB', 'SSD 2TB',
+      'کیبورد مکانیکال RGB', 'ماوس گیمینگ', 'مانیتور 4K 144Hz'
+    ];
+
+    searchInputs.forEach(input => {
+      if (input) {
+        input.addEventListener('input', function () {
+          const val = this.value.trim();
+          dropdown.innerHTML = '';
+
+          if (!val) {
+            dropdown.classList.remove('show');
+            return;
+          }
+
+          const filtered = suggestions
+            .filter(item => item.toLowerCase().includes(val.toLowerCase()))
+            .slice(0, 6);
+
+          filtered.forEach(item => {
+            const div = document.createElement('div');
+            div.textContent = item;
+            div.onclick = () => goToSearch(item);
+            dropdown.appendChild(div);
+          });
+
+          dropdown.classList.toggle('show', filtered.length > 0);
+        });
+
+        input.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            e.preventDefault();
+            goToSearch(this.value.trim());
+          }
+        });
+      }
+    });
+
+    // تابع رفتن به صفحه جستجو
+    function goToSearch(query) {
+      dropdown.classList.remove('show');
+      localStorage.setItem('lastSearch', query);
+      window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+    }
+
+    // کلیک بیرون = بستن دراپ‌داون
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.position-relative')) {
+        dropdown.classList.remove('show');
+      }
+    });
+  </script>
+
+  <script>
+    // سبد خرید ساده (localStorage)
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    function updateCartCount() {
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      const badges = document.querySelectorAll('#cartCount, #cartCountMobile');
+      badges.forEach(b => {
+        b.textContent = count;
+        b.style.display = count > 0 ? 'block' : 'none';
+      });
+    }
+
+    // دکمه‌های "افزودن به سبد"
+    document.querySelectorAll('.btn-rgb.w-100').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault(); // جلوگیری از لینک
+        const productName = btn.closest('.card').querySelector('.card-title').textContent;
+        cart.push({ name: productName, qty: 1 });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+      });
+    });
+
+    updateCartCount(); // اولین بار
+  </script>
 </body>
 
 </html>

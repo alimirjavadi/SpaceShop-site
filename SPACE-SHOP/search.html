@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>جستجو در SpaceShop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vazirmatn@33/Vazirmatn-font-face.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* فقط برای این صفحه – مطمئن میشیم متن سفید باشه */
+        .search-placeholder-text {
+            color: #ffffff !important;
+            font-size: 1.4rem;
+            margin: 2rem 0;
+            opacity: 0.95;
+        }
+
+        .search-placeholder-text small {
+            color: rgba(255, 255, 255, 0.6) !important;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <!-- لوگو -->
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                <img src="assets/images/logo/logonew2.png" alt="SpaceShop" class="logo img-fluid">
+            </a>
+
+            <!-- دکمه موبایل -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- آیتم‌های ناوبار -->
+            <div id="mainNav" class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#home">خانه</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#offers">پیشنهادی </a></li>
+                    <li class="nav-item"><a class="nav-link" href="#categories">دسته‌بندی</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#products">محصولات</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#brands">برندها</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#blog">مجله</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">تماس</a></li>
+                </ul>
+
+                <!-- سرچ بار مینیمال نئونی 2025 – دقیقاً مثل lioncomputer اما با تم خودت -->
+                <form class="d-none d-lg-block mx-3" role="search">
+                    <div class="position-relative">
+                        <input type="search" id="neonSearch" class="form-control search-neon-minimal"
+                            placeholder="جستجو در ۱۰٬۰۰۰+ محصول گیمینگ..." autocomplete="off">
+                        <i class="bi bi-search position-absolute text-cyan"></i>
+
+                        <!-- Autocomplete dropdown -->
+                        <div class="search-dropdown" id="searchDropdown">
+                            <!-- پیشنهادها با JS میاد -->
+                        </div>
+                    </div>
+                </form>
+
+                <!-- دکمه حساب کاربری -->
+                <a href="#login" class="btn btn-rgb d-flex align-items-center gap-2 ms-3 d-none d-lg-flex">
+                    <i class="bi bi-person"></i>
+                    <span>حساب کاربری</span>
+                </a>
+
+                <!-- سبد خرید با تعداد -->
+                <div class="position-relative d-none d-lg-block">
+                    <button id="cartBtn" class="btn btn-rgb position-relative" type="button">
+                        <i class="bi bi-cart"></i>
+                        <span id="cartCount"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            style="font-size: 0.7rem; display: none;">0</span>
+                    </button>
+                </div>
+
+                <!-- ==== نسخه موبایل داخل منوی همبرگری (استاندارد ۲۰۲۵) ==== -->
+                <div class="d-lg-none w-100 px-3 mt-3">
+                    <!-- سرچ بار موبایل -->
+                    <form class="mb-3" role="search">
+                        <div class="position-relative">
+                            <input type="search" id="neonSearchMobile" class="form-control search-neon-minimal py-2"
+                                placeholder="جستجو در محصولات..." autocomplete="off">
+                            <i class="bi bi-search position-absolute text-cyan"></i>
+                        </div>
+                    </form>
+
+                    <!-- دکمه‌های موبایل – دقیقاً اندازه استاندارد -->
+                    <div class="d-grid gap-2">
+                        <a href="#login"
+                            class="btn btn-rgb py-2 px-3 d-flex align-items-center justify-content-center gap-3">
+                            <i class="bi bi-person"></i>
+                            حساب کاربری
+                        </a>
+
+                        <button id="cartBtnMobile"
+                            class="btn btn-rgb py-2 px-3 d-flex align-items-center justify-content-center gap-3 position-relative"
+                            type="button">
+                            <i class="bi bi-cart3"></i>
+                            سبد خرید
+                            <span id="cartCountMobile"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                style="font-size:0.65rem; display:none;">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="container py-5 mt-5">
+        <h2 class="section-title text-center mb-5">
+            نتایج جستجو برای:
+            <span id="query" style="color:var(--primary); text-shadow:var(--glow)">...</span>
+        </h2>
+
+        <div class="text-center py-5">
+            <p class="search-placeholder-text">
+                به‌زودی محصولات مرتبط نمایش داده می‌شوند
+            </p>
+            <p class="search-placeholder-text">
+                <small>یا فعلاً از منوی بالای سایت جستجو کنید</small>
+            </p>
+        </div>
+    </section>
+
+    <script>
+        const params = new URLSearchParams(location.search);
+        const q = params.get('q') || '';
+        const querySpan = document.getElementById('query');
+
+        if (q) {
+            querySpan.textContent = q;
+            document.title = `جستجو: ${q} - SpaceShop`;
+        } else {
+            querySpan.textContent = 'همه محصولات';
+            document.title = 'SpaceShop';
+        }
+    </script>
+</body>
+
+</html>
