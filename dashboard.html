@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <title>SpaceShop Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-body: #f4f5f7;
+      --bg-surface: #ffffff;
+      --bg-sidebar: #0f172a;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-sidebar: #e2e8f0;
+      --text-sidebar-muted: #94a3b8;
+      --nav-link-active-bg: #1e293b;
+    }
+
+    body.dark-mode {
+      --bg-body: #020617;
+      --bg-surface: #020617;
+      --bg-sidebar: #020617;
+      --border-color: #1e293b;
+      --text-main: #e5e7eb;
+      --text-muted: #94a3b8;
+      --text-sidebar: #e5e7eb;
+      --text-sidebar-muted: #64748b;
+      --nav-link-active-bg: #0f172a;
+    }
+
+    body {
+      background: var(--bg-body);
+      color: var(--text-main);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--bg-sidebar);
+      color: var(--text-sidebar);
+      min-height: 100vh;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      transition: transform 0.25s ease;
+      z-index: 1030;
+    }
+
+    .sidebar-collapsed {
+      transform: translateX(100%);
+    }
+
+    .sidebar .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .logo-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    }
+
+    .sidebar .logo-title {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .sidebar .logo-subtitle {
+      font-size: 11px;
+      color: var(--text-sidebar-muted);
+    }
+
+    .sidebar .nav-link {
+      color: var(--text-sidebar);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .sidebar .nav-link span {
+      flex: 1;
+    }
+
+    .sidebar .nav-link.active,
+    .sidebar .nav-link:hover {
+      background: var(--nav-link-active-bg);
+      color: #fff;
+    }
+
+    .sidebar hr {
+      border-color: rgba(148, 163, 184, 0.5);
+    }
+
+    .subtitle-text {
+      color: var(--text-main) !important;
+    }
+
+
+    /* Main */
+    .main {
+      margin-right: 260px;
+      transition: margin-right 0.25s ease;
+    }
+
+    @media (max-width: 992px) {
+      .main {
+        margin-right: 0;
+      }
+    }
+
+    /* Topbar */
+    .topbar {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1020;
+    }
+
+    .breadcrumb-text {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .breadcrumb-text strong {
+      color: var(--text-main);
+    }
+
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-surface);
+      cursor: pointer;
+      color: var(--text-main);
+    }
+
+    .btn-icon:hover {
+      background: rgba(148, 163, 184, 0.12);
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+    }
+
+    /* Content cards */
+    .stat-card,
+    .panel-card,
+    .table-card {
+      background: var(--bg-surface);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      padding: 16px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .trend-up {
+      color: #16a34a;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .trend-down {
+      color: #dc2626;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Fake Chart */
+    .fake-chart {
+      height: 220px;
+      background: linear-gradient(135deg, #eff6ff, #e5f3ff);
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body.dark-mode .fake-chart {
+      background: radial-gradient(circle at top, #1d283a, #020617);
+    }
+
+    .fake-chart-line {
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background: rgba(148, 163, 184, 0.4);
+    }
+
+    .fake-chart-line:nth-child(1) {
+      top: 25%;
+    }
+
+    .fake-chart-line:nth-child(2) {
+      top: 50%;
+    }
+
+    .fake-chart-line:nth-child(3) {
+      top: 75%;
+    }
+
+    .progress {
+      height: 8px;
+      border-radius: 999px;
+    }
+
+    .panel-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .panel-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .legend-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* Table */
+    .table-card h6 {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    thead.table-light th {
+      font-size: 12px;
+    }
+
+    tbody td {
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    /* Overlay for mobile sidebar */
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 1025;
+      display: none;
+    }
+
+    .sidebar-overlay.show {
+      display: block;
+    }
+
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(100%);
+      }
+
+      .sidebar.sidebar-open {
+        transform: translateX(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Sidebar overlay (for mobile) -->
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar">
+    <div class="logo">
+      <div class="logo-circle"> <img src="/assets/logo/" alt=""></div>
+      <div>
+        <div class="logo-title">SpaceShop Admin</div>
+        <div class="logo-subtitle">Dashboard System</div>
+      </div>
+    </div>
+
+    <nav class="nav flex-column mb-3">
+      <a class="nav-link active" href="#">
+        <i class="bi bi-speedometer2"></i>
+        <span>داشبورد</span>
+      </a>
+      <a class="nav-link" href="#">
+        <i class="bi bi-bag-check"></i>
+        <span>سفارش‌ها</span>
+      </a>
+      <a class="nav-link" href="#">
+        <i class="bi bi-people"></i>
+        <span>کاربران</span>
+      </a>
+      <a class="nav-link" href="#">
+        <i class="bi bi-box-seam"></i>
+        <span>محصولات</span>
+      </a>
+    </nav>
+
+    <hr>
+
+    <nav class="nav flex-column mb-3">
+      <a class="nav-link" href="#">
+        <i class="bi bi-gear"></i>
+        <span>تنظیمات</span>
+      </a>
+      <a class="nav-link" href="#">
+        <i class="bi bi-person-circle"></i>
+        <span>پروفایل</span>
+      </a>
+      <a class="nav-link text-danger" href="#">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>خروج</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="d-flex align-items-center gap-2">
+        <button id="hamburgerBtn" class="btn-icon d-lg-none">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="breadcrumb-text">
+          <span>صفحات / </span><strong>داشبورد</strong>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <div class="theme-toggle" id="themeToggle">
+          <i class="bi bi-moon-stars"></i>
+          <span>حالت تیره</span>
+        </div>
+        <div class="btn-icon" id="fullscreenBtn">
+          <i class="bi bi-arrows-fullscreen"></i>
+        </div>
+        <div class="btn-icon">
+          <i class="bi bi-bell"></i>
+        </div>
+        <div class="btn-icon">
+          <i class="bi bi-person"></i>
+        </div>
+        <div class="btn-icon text-danger">
+          <i class="bi bi-box-arrow-right"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container-fluid p-4">
+
+      <!-- Title + actions -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+        <div>
+          <h5 class="mb-1">داشبورد فروش</h5>
+          <div class="subtitle-text" style="font-size: 12px;">
+            وضعیت کلی فروش، سفارش‌ها و عملکرد سایت
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-primary btn-sm">
+            <i class="bi bi-plus-circle ms-1"></i> سفارش جدید
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="row g-3 mb-3">
+
+        <div class="col-md-3 col-sm-6">
+          <div class="stat-card">
+            <div class="stat-label">کل فروش امروز</div>
+            <div class="d-flex justify-content-between align-items-end mt-1">
+              <div class="stat-value">۳,۴۵۰,۰۰۰</div>
+              <div class="trend-up">+۱۲٪</div>
+            </div>
+            <div class="mt-1" style="font-size: 11px; color: var(--text-muted);">
+              نسبت به روز گذشته
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+          <div class="stat-card">
+            <div class="stat-label">سفارش‌های فعال</div>
+            <div class="d-flex justify-content-between align-items-end mt-1">
+              <div class="stat-value">۴۳</div>
+              <div class="trend-down">-۵٪</div>
+            </div>
+            <div class="mt-1" style="font-size: 11px; color: var(--text-muted);">
+              در حال پردازش
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+          <div class="stat-card">
+            <div class="stat-label">کاربران جدید</div>
+            <div class="d-flex justify-content-between align-items-end mt-1">
+              <div class="stat-value">۱۸</div>
+              <div class="trend-up">+۲۸٪</div>
+            </div>
+            <div class="mt-1" style="font-size: 11px; color: var(--text-muted);">
+              ثبت‌نام در ۲۴ ساعت اخیر
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+          <div class="stat-card">
+            <div class="stat-label">درآمد این ماه</div>
+            <div class="d-flex justify-content-between align-items-end mt-1">
+              <div class="stat-value">۷۹,۸۰۰,۰۰۰</div>
+              <div class="trend-up">+۱۹٪</div>
+            </div>
+            <div class="mt-1" style="font-size: 11px; color: var(--text-muted);">
+              هدف: ۱۰۰,۰۰۰,۰۰۰ تومان
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart + monthly + weekly -->
+      <div class="row g-3 mb-3">
+
+        <!-- Chart -->
+        <div class="col-lg-8">
+          <div class="panel-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div>
+                <div class="panel-title">نمودار فروش ۷ روز اخیر</div>
+                <div class="panel-subtitle">مقایسه فروش روزانه (تومان)</div>
+              </div>
+              <div class="d-flex gap-2" style="font-size: 11px;">
+                <span><span class="legend-dot" style="background:#2563eb;"></span> امروز</span>
+                <span><span class="legend-dot" style="background:#10b981;"></span> میانگین هفته</span>
+              </div>
+            </div>
+            <div class="mt-2" style="position: relative; height: 220px;">
+              <canvas id="salesChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monthly + Weekly stacked -->
+        <div class="col-lg-4">
+          <div class="panel-card mb-3">
+            <div class="panel-title">عملکرد ماهانه</div>
+            <div class="panel-subtitle mb-2">پیشرفت نسبت به هدف</div>
+            <div class="fw-bold fs-4">۶۴٪</div>
+            <div class="subtitle-text" style="font-size: 12px;">از هدف این ماه تا این لحظه</div>
+            <div class="progress mt-2">
+              <div class="progress-bar bg-success" style="width: 64%;"></div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-title">عملکرد هفتگی</div>
+            <div class="panel-subtitle mb-2">میزان تحقق در این هفته</div>
+            <div class="fw-bold fs-5">۷۸٪</div>
+            <div class="subtitle-text" style="font-size: 12px;">بر اساس هدف هفتگی</div>
+            <div class="progress mt-2">
+              <div class="progress-bar bg-info" style="width: 78%;"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+        <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+          <div>
+            <h6 class="mb-1">آخرین سفارش‌ها</h6>
+            <div class="panel-subtitle">لیست خلاصه ۱۰ سفارش اخیر</div>
+          </div>
+          <div class="btn-group btn-group-sm" role="group">
+            <button class="btn btn-outline-secondary active">همه</button>
+            <button class="btn btn-outline-secondary">پرداخت شده</button>
+            <button class="btn btn-outline-secondary">در انتظار</button>
+            <button class="btn btn-outline-secondary">لغو شده</button>
+          </div>
+        </div>
+
+        <div class="table-responsive mt-2">
+          <table class="table table-sm table-hover align-middle text-center mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>#</th>
+                <th>نام مشتری</th>
+                <th>تاریخ</th>
+                <th>مبلغ</th>
+                <th>وضعیت</th>
+                <th>پرداخت</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>۱۰۲۳</td>
+                <td>علی رضایی</td>
+                <td>۱۴۰۴/۱۰/۱۷</td>
+                <td>۵۶۰,۰۰۰</td>
+                <td><span class="badge bg-success">پرداخت شده</span></td>
+                <td>درگاه بانکی</td>
+              </tr>
+              <tr>
+                <td>۱۰۲۲</td>
+                <td>مریم شریفی</td>
+                <td>۱۴۰۴/۱۰/۱۷</td>
+                <td>۱,۲۸۰,۰۰۰</td>
+                <td><span class="badge bg-warning text-dark">در انتظار</span></td>
+                <td>کارت به کارت</td>
+              </tr>
+              <tr>
+                <td>۱۰۲۱</td>
+                <td>حسین احمدی</td>
+                <td>۱۴۰۴/۱۰/۱۶</td>
+                <td>۳۸۰,۰۰۰</td>
+                <td><span class="badge bg-success">پرداخت شده</span></td>
+                <td>درگاه بانکی</td>
+              </tr>
+              <tr>
+                <td>۱۰۲۰</td>
+                <td>زهرا محمدی</td>
+                <td>۱۴۰۴/۱۰/۱۶</td>
+                <td>۹۲۰,۰۰۰</td>
+                <td><span class="badge bg-danger">لغو شده</span></td>
+                <td>پرداخت در محل</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // عناصر
+    const body = document.body;
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const themeToggle = document.getElementById('themeToggle');
+
+    // حالت تم از localStorage
+    const savedTheme = localStorage.getItem('theme-mode');
+    if (savedTheme === 'dark') {
+      body.classList.add('dark-mode');
+    }
+
+    // سوییچ تم دارک/لایت
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      const isDark = body.classList.contains('dark-mode');
+      localStorage.setItem('theme-mode', isDark ? 'dark' : 'light');
+    });
+
+    // وضعیت سایدبار (موبایل)
+    const openSidebar = () => {
+      sidebar.classList.remove('sidebar-collapsed');
+      sidebar.classList.add('sidebar-open');
+      sidebarOverlay.classList.add('show');
+    };
+
+    const closeSidebar = () => {
+      sidebar.classList.remove('sidebar-open');
+      sidebar.classList.add('sidebar-collapsed');
+      sidebarOverlay.classList.remove('show');
+    };
+
+    hamburgerBtn.addEventListener('click', () => {
+      if (sidebar.classList.contains('sidebar-open')) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    });
+
+    sidebarOverlay.addEventListener('click', closeSidebar);
+
+    // روی دسکتاپ، سایدبار همیشه باز باشد
+    const handleResize = () => {
+      if (window.innerWidth >= 992) {
+        sidebar.classList.remove('sidebar-collapsed', 'sidebar-open');
+        sidebarOverlay.classList.remove('show');
+      } else {
+        sidebar.classList.add('sidebar-collapsed');
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+  </script>
+  <script>
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+
+    const salesChart = new Chart(salesCtx, {
+      type: 'line',
+      data: {
+        labels: ['شنبه', 'یک‌شنبه', 'دو‌شنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه'],
+        datasets: [
+          {
+            label: 'فروش این هفته',
+            data: [120, 190, 150, 220, 180, 240, 210],
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.12)',
+            tension: 0.4,
+            fill: true,
+            pointRadius: 3,
+            pointBackgroundColor: '#3b82f6'
+          },
+          {
+            label: 'میانگین هفته قبل',
+            data: [100, 160, 130, 190, 160, 200, 180],
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.06)',
+            tension: 0.4,
+            fill: false,
+            borderDash: [5, 4],
+            pointRadius: 0
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              font: { family: 'system-ui' }
+            }
+          },
+          tooltip: {
+            rtl: true,
+            titleFont: { family: 'system-ui' },
+            bodyFont: { family: 'system-ui' }
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              font: { family: 'system-ui' }
+            },
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            ticks: {
+              font: { family: 'system-ui' }
+            },
+            grid: {
+              color: 'rgba(148, 163, 184, 0.3)'
+            }
+          }
+        }
+      }
+    });
+  </script>
+  <script>
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+    fullscreenBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        // ورود به فول اسکرین
+        document.documentElement.requestFullscreen();
+        fullscreenBtn.innerHTML = '<i class="bi bi-fullscreen-exit"></i>';
+      } else {
+        // خروج از فول اسکرین
+        document.exitFullscreen();
+        fullscreenBtn.innerHTML = '<i class="bi bi-arrows-fullscreen"></i>';
+      }
+    });
+
+    // اگر کاربر با ESC خارج شد، آیکون برگرده
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) {
+        fullscreenBtn.innerHTML = '<i class="bi bi-arrows-fullscreen"></i>';
+      }
+    });
+  </script>
+
+</body>
+
+</html>
